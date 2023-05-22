@@ -78,10 +78,15 @@ class Download():
                         js = Util.json.loads(js)
                         creat_time = Util.time.strftime(
                             "%Y-%m-%d %H.%M.%S", Util.time.localtime(js['aweme_detail']['create_time']))
+                        # 新增的代码
+                        start_time = profileData.interval
+                        date_format = "%Y-%m-%d %H.%M.%S"
+                        start_data = Util.time.strptime(start_time, date_format)
+                        creat_date = Util.time.strptime(creat_time, date_format)
                     except Exception as videoNotFound:
                         Util.log.warning(videoNotFound)
                         print('[  🚩🚩  ]:由于官方接口cdn缓存暂没过期，id:%s的视频已经不存在！\r' %
-                                self.aweme_id[i])
+                              self.aweme_id[i])
                         Util.log.warning(
                             f'[  🚩🚩  ]: {self.nickname} 的视频 {self.aweme_id[i]} 下载失败')
                         continue
@@ -98,7 +103,7 @@ class Download():
 
                     # 检查视频下载情况
                     file_state = self.check.test(
-                        self.path, creat_time, self.author_list[i], ".mp4")
+                        self.path, creat_time, self.author_list[i], ".mp4", start_data, creat_date)
                     if file_state == True:
                         continue
                     else:
@@ -176,7 +181,7 @@ class Download():
                     self.sprit = Util.sprit
 
                     path = "Download" + self.sprit + "pic" + self.sprit + \
-                        self.nickname + self.sprit + self.create_time + self.desc
+                           self.nickname + self.sprit + self.create_time + self.desc
                     # 检测下载目录是否存在
                     if not Util.os.path.exists(path):
                         Util.os.makedirs(path)
@@ -185,7 +190,7 @@ class Download():
                         # 图片目录
                         p_url = 'Download' + self.sprit + 'pic' + self.sprit + self.nickname + self.sprit + \
                                 self.create_time + self.desc + self.sprit + \
-                            self.create_time + self.desc + \
+                                self.create_time + self.desc + \
                                 '_' + str(i) + '.jpeg'
                         # 检查图片下载情况
                         if Util.os.path.exists(p_url):

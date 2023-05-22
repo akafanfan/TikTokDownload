@@ -16,13 +16,18 @@ Change Log  :
 
 import Util
 
+
 class CheckInfo():
 
     def __init__(self):
         pass
 
     # 检测视频是否已经下载过
-    def test(self, path, creat_time, file_name, file_type):
+    def test(self, path, creat_time, file_name, file_type, start_data, creat_date):
+        if creat_date < start_data:
+            return True
         return Util.os.path.exists(path + creat_time + file_name + file_type)
+
+
 if __name__ == '__main__':
     CheckInfo()

@@ -49,6 +49,8 @@ class Profile():
         """
         self.music = param[1]
         self.mode = param[2]
+        # 新增代码
+        self.interval = param[4]
         try:
             r = Util.requests.post(url=Util.reFind(param[0])[0])
         except:
